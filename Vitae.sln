@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29721.120
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitae", "Vitae\Vitae.csproj", "{D643198C-28D9-41AA-8475-FB68C4D94060}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupVitae", "SetupVitae\SetupVitae.vdproj", "{2690D617-1515-4BCD-94D5-18748681EEEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D643198C-28D9-41AA-8475-FB68C4D94060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D643198C-28D9-41AA-8475-FB68C4D94060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D643198C-28D9-41AA-8475-FB68C4D94060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D643198C-28D9-41AA-8475-FB68C4D94060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2690D617-1515-4BCD-94D5-18748681EEEE}.Debug|Any CPU.ActiveCfg = Debug
+		{2690D617-1515-4BCD-94D5-18748681EEEE}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DDE2E99-A431-4F6A-BF8A-5F9DC488D6C1}
+	EndGlobalSection
+EndGlobal

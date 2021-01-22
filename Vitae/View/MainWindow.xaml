@@ -1,0 +1,561 @@
+﻿<Window x:Class="Vitae.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vitae"
+        mc:Ignorable="d"
+        x:Name="main_window" Height="652" Width="1148" Closing="Window_Closing"  Loaded="Window_Loaded" 
+        Icon="pack://application:,,,/View/logo.ico"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" WindowStyle="ThreeDBorderWindow">
+
+    <Grid x:Name="MainGrid" Background="#FF9A66C8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34"></RowDefinition>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid  Height="34" VerticalAlignment="Top" Background="#FF65279D">
+
+            <Menu x:Name="menu" HorizontalAlignment="Left" Height="25" 
+                  VerticalAlignment="Center" 
+              Width="auto"  Background="#FF65279D"
+                  Style="{StaticResource Top_Menu}">
+
+                <MenuItem Header="Главное" FontFamily="Book Antiqua" Foreground="#FF543A6B">
+                    <MenuItem.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFBCABED" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </MenuItem.Background>
+                    <MenuItem  Header="Импортировать изображение"  Click="Import_Image" Margin="0,0,-34.6,0"/>
+                    <Separator></Separator>
+                    <MenuItem x:Name="Open_Book" Header="Вводные знания"  Click="Open_Book_Click" Margin="0,0,-34.6,0"/>
+                    <MenuItem x:Name="Open_Classification" Header="Справочник"  Click="Open_Classification_Click" IsEnabled="False" Margin="0,0,-34.6,0"/>
+                    <MenuItem x:Name="Save_Classification" Header="Сохранить изменения в справочнике"  Click="Save_Click" Margin="0,0,-34.6,0"/>
+                    <MenuItem x:Name="Save_Book" Header="Сохранить изменения в книге"  Click="Save_Book_Click" Margin="0,0,-34.6,0"/>
+                    <MenuItem x:Name="Statistics_Menu" Header="Посмотреть статистику"  Margin="0,0,-34.6,0" Click="Statistics_Menu_Click"/>
+                </MenuItem>
+
+                <MenuItem Height="{Binding Height, ElementName=menu}" Header="Настройки" 
+                          FontFamily="Book Antiqua" Foreground="#FF543A6B">
+                    <MenuItem.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFBCABED" Offset="0.907"/>
+                            <GradientStop Color="White" Offset="0.01"/>
+                        </LinearGradientBrush>
+                    </MenuItem.Background>
+                </MenuItem>
+            </Menu>
+            <Label x:Name="label" Content="Vitae" HorizontalAlignment="Right"  VerticalAlignment="Top"
+             Foreground="White" FontSize="22" FontFamily="Book Antiqua" Margin="0,0,30,0"/>
+        </Grid>
+        <TabControl x:Name="tabControl" Visibility="Visible" 
+                    IsSynchronizedWithCurrentItem="true" TabStripPlacement="Left" 
+                    Padding="0,0,20,20" Background="#FF9A66C8" BorderBrush="{x:Null}" 
+                    Grid.Row="2">
+            <TabItem Name="tabItem1" Width="150" Height="60" Header="Классификация"  
+                     BorderBrush="#FFACACAC" MinWidth="149" MinHeight="60" 
+                     MaxWidth="190" MaxHeight="90" UseLayoutRounding="False" 
+                     Style="{StaticResource Left_Menu}">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FFBCABED" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid x:Name="Classification_Grid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                        <RowDefinition Height="1.2*"></RowDefinition>
+                        <RowDefinition Height="0.2*"></RowDefinition>
+                        <RowDefinition Height="0.25*"></RowDefinition>
+                        <RowDefinition Height="0.25*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.35*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.22*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.19*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.18*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="Search_Element" Height="24" Margin="20,0,0,0" 
+                             TextWrapping="Wrap" Text="" FontWeight="Normal" 
+                             Padding="0,0,20,0" Grid.ColumnSpan="3"
+                             FontSize="16"/>
+                    <Button x:Name="Search_Button" Content="" HorizontalAlignment="Right"
+                            Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="20" 
+                            Height="20" Click="Search_Button_Click"
+                            BorderBrush="{x:Null}" Foreground="{x:Null}" 
+                            Style="{StaticResource Search_Style}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="search (2).png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                    <TreeView x:Name="treeView" Grid.Row="1" Grid.ColumnSpan="5"
+                              Grid.RowSpan="2"
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Stretch" Margin="10" 
+                              SelectedItemChanged="treeView_SelectedItemChanged" 
+                              FontWeight="Normal" FontSize="16" 
+                              Style="{StaticResource TreeView_Style}" 
+                              ItemContainerStyle="{StaticResource TreeViewItem_Style}">
+
+                    </TreeView>
+                    <Button x:Name="add_child" Content="Добавить дочерний элемент"  
+                            Style="{StaticResource Buttons_Classification}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" Click="add_child_Click" 
+                            Grid.Row="4" Grid.ColumnSpan="2" Margin="10"/>
+                    <Button x:Name="add_in_list" Content="Добавить в список" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" Grid.Row="3"
+                Style="{StaticResource Buttons_Classification}" 
+                            Click="add_in_list_Click" />
+                    <Button x:Name="edit" Content="Редактировать" HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                Style="{StaticResource Buttons_Classification}" Click="edit_Click"
+                            Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"/>
+                    <Button x:Name="Ok" Content="Хорошо" 
+                            HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"  
+                 Style="{StaticResource Buttons_Classification}" 
+                            Click="Ok_Click" Grid.Column="3" Grid.Row="3"/>
+                    <Button x:Name="delete" Content="Удалить" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            Style="{StaticResource Buttons_Classification}" 
+                            Click="delete_Click" 
+                            Grid.Column="4" Grid.Row="4"/>
+                    <Button x:Name="cancel" Content="Отмена" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Style="{StaticResource Buttons_Classification}"  
+                            Click="cancel_Click" Grid.Row="3" Grid.Column="4"/>
+                    <Label x:Name="alerts" Content="" 
+                           Grid.Column="5"/>
+                    <Button x:Name="add_to_favorites" Content="Добавить в избранные" 
+                            HorizontalAlignment="Center" 
+                            Style="{StaticResource Buttons_Classification}" 
+                            VerticalAlignment="Center"  Click="add_to_favorites_Click"
+                            Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <ScrollViewer Grid.Column="5" Grid.Row="1">
+                        <Grid x:Name="Classification_Stack" Grid.Column="5" Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox x:Name="Interior_Box" IsEnabled="False"
+                                     TextWrapping="Wrap" Text="Interior" Padding="60,3"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                     FontWeight="Normal"/>
+                            <TextBox x:Name="Description_Box" 
+                                     Padding="5" IsEnabled="False" 
+                                     Text="Description" TextWrapping="Wrap"
+                                     FontWeight="Normal" Grid.Row="1"/>
+                        </Grid>
+                    </ScrollViewer>
+                    <Grid x:Name="Grid_Element_Images"
+                        Grid.Row="2" Grid.Column="5" Grid.RowSpan="3">
+                        <ScrollViewer x:Name="Scroll_Element_Images"
+                        HorizontalScrollBarVisibility="Visible" 
+                                          VerticalScrollBarVisibility="Hidden"
+                                      Height="{Binding ElementName=Grid_Element_Images,
+                            Path=Height,UpdateSourceTrigger=PropertyChanged}">
+                            <StackPanel Orientation="Horizontal"  
+                                            x:Name="Element_Images" 
+                                    Height="{Binding ElementName=Grid_Element_Images,
+                            Path=Height,UpdateSourceTrigger=PropertyChanged}">
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Width="150" Height="60" Header="Проверка знаний" Margin="{Binding ElementName=tabItem1, Path=Margin}" VerticalAlignment="Top" MinWidth="149" MinHeight="60" 
+                     MaxWidth="190" MaxHeight="90" UseLayoutRounding="False" Style="{StaticResource Left_Menu}">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="#FFBCABED" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+                    <Grid x:Name="gameMenu" Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.3*"></RowDefinition>
+                            <RowDefinition Height="240"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.2*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border BorderBrush="Black"  HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Grid.Row="1" Grid.Column="1">
+                            <Button x:Name="gamebutton" Content="Картинки" 
+                                 Click="Gamebutton_Click"   Panel.ZIndex="1" 
+                                    RenderTransformOrigin="0.5,0.5"
+                                Style="{StaticResource Check_Style}" 
+                                    MouseEnter="gamebutton_MouseEnter" >
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Дельфин.jpg" Stretch="Fill" TileMode="Tile">
+                                        <ImageBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="1" CenterX="1"/>
+                                                <SkewTransform CenterY="1" CenterX="1"/>
+                                                <RotateTransform CenterY="1" CenterX="1"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </ImageBrush.RelativeTransform>
+                                    </ImageBrush>
+                                </Button.Background>
+                            </Button>
+                        </Border>
+                        <Border BorderBrush="Black"  HorizontalAlignment="Center" 
+                                VerticalAlignment="Top" 
+                                Grid.Row="1" Grid.Column="2">
+                            <Button x:Name="gamebutton1" Content="Слова" 
+                                 Click="Gamebutton1_Click"  
+                                    Style="{StaticResource Check_Style}" >
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Лев.png">
+                                        <ImageBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="1" CenterX="0.5"/>
+                                                <SkewTransform CenterY="1" CenterX="0.5"/>
+                                                <RotateTransform CenterY="1" CenterX="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </ImageBrush.RelativeTransform>
+                                    </ImageBrush>
+                                </Button.Background>
+                            </Button>
+                        </Border>
+                        <Border BorderBrush="Black"   
+                                Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <Button x:Name="gamebutton2" Content="Найти соответствие"  
+                                 Click="Gamebutton2_Click" 
+                                    Style="{StaticResource Check_Style}" >
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Медуза.jpg"/>
+                                </Button.Background>
+                            </Button>
+                        </Border>
+                        <ScrollViewer HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch" 
+                                      Background="#998A2BE2" FontWeight="Normal"
+                                      Grid.Row="2" Grid.Column="3">
+                            <StackPanel x:Name="StackP_Filter" HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch" >
+                                <RadioButton x:Name="All_RB" Style="{StaticResource RadioBut_Style}" Content="Все сразу" Checked="All_RB_Checked" IsChecked="True" Margin="5" />
+                                <RadioButton x:Name="Favorites_RB" Style="{StaticResource RadioBut_Style}" Content="Избранные" Checked="All_RB_Checked" Margin="5,0,5,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="game1" Visibility="Collapsed" HorizontalAlignment="Left"  
+                          Width="923">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.2*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="0.3*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="back1" Content="Назад" HorizontalAlignment="Center"  VerticalAlignment="Center" MinWidth="75" MaxWidth="275" 
+                                Click="Back1_Click" Style="{StaticResource Buttons_Classification}"/>
+                        <Image x:Name="variant1" Grid.Row="1" Grid.Column="1" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp"  />
+                        <Image x:Name="variant2" Grid.Row="1" Grid.Column="2" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp" />
+                        <Image x:Name="variant3" Grid.Row="1" Grid.Column="3" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp" />
+                        <Image x:Name="variant4" Grid.Row="2" Grid.Column="1" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp" />
+                        <Image x:Name="variant5" Grid.Row="2" Grid.Column="2" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp" />
+                        <Image x:Name="variant6" Grid.Row="2" Grid.Column="3" 
+                               Style="{StaticResource Image_Style}" MouseUp="Image_Victorina_MouseUp" />
+                        <Label x:Name="Right_label" Grid.Row="3" Grid.Column="1" 
+                               Grid.ColumnSpan="3" HorizontalAlignment="Center"  
+                               VerticalAlignment="Center" Height="30" 
+                                Style="{StaticResource Game_Style}">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                        </Label>
+                        <Label x:Name="Message1" Grid.Column="2" 
+                               Content="Найдите соответствие" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Style="{StaticResource Game_Style}"/>
+                        <Label x:Name="Left1" Grid.Row="1" Content="" 
+                               HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                                 Style="{StaticResource Game_Style}"/>
+                    </Grid>
+                    <Grid x:Name="game2" Visibility="Collapsed" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.45*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.45*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.6*"></RowDefinition>
+                            <RowDefinition Height="1.4*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="back2" Content="Назад" HorizontalAlignment="Right"  
+                                VerticalAlignment="Top" 
+                                Click="Back2_Click" 
+                                Style="{StaticResource Buttons_Classification}" 
+                                Margin="10" Grid.Column="4"/>
+
+                        <Image x:Name="being" 
+                               Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Margin="10"/>
+
+                        <Button x:Name="word1But"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Word_Victorina_Click" 
+                                Grid.Row="2" Grid.Column="1" Margin="10">
+                            <TextBlock x:Name="word1" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Button x:Name="word2But" Grid.Row="2" Grid.Column="2"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Word_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="word2" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Button x:Name="word3But" Grid.Row="2" Grid.Column="3"
+                                Click="Word_Victorina_Click"  
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Margin="10">
+                            <TextBlock x:Name="word3" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Button x:Name="word4But" Grid.Row="3" Grid.Column="1"
+                                Click="Word_Victorina_Click"  
+                                Style="{Binding ElementName=answer1But, Path=Style}" 
+                                Margin="10">
+                            <TextBlock x:Name="word4" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Button x:Name="word5But" Grid.Row="3" Grid.Column="2"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Word_Victorina_Click" Margin="10" >
+                            <TextBlock x:Name="word5" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Button x:Name="word6But" Grid.Row="3" Grid.Column="3"
+                                Style="{Binding ElementName=answer1But, Path=Style}" 
+                                Click="Word_Victorina_Click" Margin="10" >
+                            <TextBlock x:Name="word6" Style="{StaticResource TBSearch_Style}"></TextBlock>
+                        </Button>
+                        <Label x:Name="Message2" Content="" HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Top"  
+                               Style="{StaticResource Game_Style}"
+                               Grid.Column="2"></Label>
+                        <Label x:Name="Left2" Content="" Grid.Row="1" 
+                               HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                                Style="{StaticResource Game_Style}"/>
+                    </Grid>
+                    <Grid x:Name="game3" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.45*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.45*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="108.8"></RowDefinition>
+                            <RowDefinition Height="127*"></RowDefinition>
+                            <RowDefinition Height="45*"></RowDefinition>
+                            <RowDefinition Height="45*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="back3" Content="Назад" 
+                                HorizontalAlignment="Right"  VerticalAlignment="Top" 
+                                Grid.Column="4"
+                                Style="{StaticResource Buttons_Classification}" Margin="10" 
+                                Click="Back3_Click"/>
+                        <Button x:Name="answer1But" Grid.Row="2" Grid.Column="1"
+                                Style="{StaticResource Buttons_Check_Style}" 
+                                Click="Description_Victorina_Click" Margin="10" FontWeight="Normal">
+                            <TextBlock x:Name="answer1" 
+                                       Style="{StaticResource TBSearch_Style}">
+                                sdfsdsdfsdf
+                            </TextBlock>
+                        </Button>
+                        <Button x:Name="answer2But" Grid.Row="2" Grid.Column="2"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Description_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="answer2" Style="{StaticResource TBSearch_Style}">
+
+                            </TextBlock>
+                        </Button>
+                        <Button x:Name="answer3But" Grid.Row="2" Grid.Column="3"
+                                Style="{Binding ElementName=answer1But, Path=Style}" 
+                                Click="Description_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="answer3" ></TextBlock>
+                        </Button>
+                        <Button x:Name="answer4But" Grid.Row="3" Grid.Column="1"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Description_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="answer4">
+                            </TextBlock>
+                        </Button>
+                        <Button x:Name="answer5But" Grid.Row="3" Grid.Column="2"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Description_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="answer5"></TextBlock>
+                        </Button>
+                        <Button x:Name="answer6But" Grid.Row="3" Grid.Column="3"
+                                Style="{Binding ElementName=answer1But, Path=Style}"
+                                Click="Description_Victorina_Click" Margin="10">
+                            <TextBlock x:Name="answer6"></TextBlock>
+                        </Button>
+                        <TextBlock x:Name="Description_TextBlock" TextWrapping="Wrap" 
+                                   Text="" Style="{StaticResource GameTB_Style}"
+                                   Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"/>
+
+                        <Label x:Name="Message3" Content="" 
+                               HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                               Style="{StaticResource Game_Style}"
+                               Grid.Column="2"/>
+                        <Label x:Name="Left3" Content="" HorizontalAlignment="Stretch"
+                               VerticalAlignment="Top" Grid.Row="1"
+                               Style="{StaticResource Game_Style}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="150" Height="60" Header="Избранное" BorderBrush="#FFACACAC" MinWidth="149" MinHeight="60" MaxWidth="190" MaxHeight="90" UseLayoutRounding="False"
+                     Style="{StaticResource Left_Menu}" Margin="-0.406,-2.788,0.805,2.787">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="#FFBCABED" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                        <RowDefinition Height="1.2*"></RowDefinition>
+                        <RowDefinition Height="0.22*"></RowDefinition>
+                        <RowDefinition Height="0.2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.55*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.45*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="Favorite_Stack" Grid.Row="1" Grid.Column="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="Interior_Box_Favorites" IsEnabled="False" 
+                                 TextWrapping="Wrap" Text="Interior"
+                                 FontWeight="Normal"  Padding="60,3"
+                                 HorizontalAlignment="Center"/>
+                        <TextBox x:Name="Description_Box_Favorites" IsEnabled="False" 
+                                 Grid.Row="1" Padding="5"
+                                  TextWrapping="Wrap" Text="Description" 
+                           FontWeight="Normal"/>
+                    </Grid>
+                    <ListBox x:Name="favorites_listBox" 
+                             SelectionChanged="Favorites_listBox_SelectionChanged" 
+                             FontWeight="Normal" FontSize="12"
+                             Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
+                        <ListBox.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Favorites}">
+                                <TextBlock Text="{Binding Interior}"></TextBlock>
+                            </HierarchicalDataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button x:Name="delete_Favorite" Content="Удалить из избранных" 
+                            Grid.Row="2" Grid.Column="1" 
+                            Click="delete_Favorite_Click" Margin="10"
+                            Style="{StaticResource Buttons_Classification}"/>
+                </Grid>
+            </TabItem>
+
+
+
+        </TabControl>
+
+        <Grid x:Name="Pages_Grid" Visibility="Collapsed" 
+              Grid.Row="1" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="43"></RowDefinition>
+                <RowDefinition Height="1.8*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"  
+                     VerticalAlignment="Top">
+                <Button x:Name="Add_Page" Content="Добавить страницу" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Style="{StaticResource   Pages_Buttons}" Click="Add_Page_Click" 
+                        MouseEnter="Edit_Text_MouseEnter" 
+                        MouseLeave="Edit_Text_MouseLeave" FontSize="16">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF693EB9" Offset="0.469"/>
+                            <GradientStop Color="#FF8B55BC"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+                </Button>
+                <Button x:Name="Add_Image" Content="Добавить картинку" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" 
+                Style="{StaticResource Pages_Buttons}"  MouseEnter="Edit_Text_MouseEnter" MouseLeave="Edit_Text_MouseLeave" FontSize="16">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF693EB9" Offset="0.469"/>
+                            <GradientStop Color="#FF8B55BC"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Edit_Text" Content="Редактировать" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" 
+                Style="{StaticResource Pages_Buttons}" Click="Edit_Text_Click" MouseEnter="Edit_Text_MouseEnter" MouseLeave="Edit_Text_MouseLeave" FontSize="16" />
+                <Button x:Name="Delete_Page" Content="Удалить страницу" Style="{StaticResource Pages_Buttons}" 
+                        Click="Delete_Page_Click"  MouseEnter="Edit_Text_MouseEnter" MouseLeave="Edit_Text_MouseLeave" FontSize="16"/>
+
+            </StackPanel>
+            <Button x:Name="Save_Page" Content="Сохранить" 
+                         Width="100" HorizontalAlignment="Right"
+                        Style="{StaticResource Pages_Buttons}" 
+                        Click="Save_Book_Click"  
+                        MouseEnter="Edit_Text_MouseEnter" 
+                        MouseLeave="Edit_Text_MouseLeave" FontSize="16"/>
+            <Grid x:Name="Grid_Book" Grid.Row="1"
+                   Background="#FF9A66C8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="Table_Contets" HorizontalAlignment="Left" 
+                            Margin="0,0,0,0" VerticalAlignment="Stretch" Width="200"/>
+                <RichTextBox x:Name="rich_Book" Grid.Column="1" Margin="15"
+                             HorizontalAlignment="Stretch" IsReadOnly="True"  
+                              VerticalAlignment="Stretch"
+                 Padding="15" SelectionBrush="#FF65279D" BorderBrush="{x:Null}" Foreground="#FFF4F6FB" Background="#FF8047B3" CaretBrush="#FF65279D">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text=""/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+
+            </Grid>
+
+
+        </Grid>
+    </Grid>
+
+</Window>
